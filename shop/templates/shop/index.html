@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Shop</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="text-center">
+    <a  href="{% url 'shop:create' %}"><button class="btn btn-outline-success m-5">Add Product</button></a>
+</div>
+
+{% if products %}
+
+<table class="table table-bordered">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">N°</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>
+                    <a href="{% url 'shop:detail' product.id %}" class="border-0">{{ product.text }}</a>
+                </td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.quantity }}</td>
+
+                <td>
+                    <a href="{% url 'shop:edit' product.id %}"><button class="btn btn-outline-primary">Edit</button></a>
+                </td>
+                <td>
+                    <a href="{% url 'shop:delete' product.id %}"><button class="btn btn-outline-danger">Delete</button></a>
+                </td>
+            </tr>
+        {% endfor %}
+
+    {% else %}
+        <p>No products available</p>
+    </tbody>
+    {% endif %}
+</table>
+
+{% endblock%}
