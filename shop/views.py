@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import redirect, render
+from numpy import product
 
 from shop.form import ProductForm
 from .models import Product
@@ -23,9 +24,10 @@ def detail(request, product_id):
         product = Product.objects.get(pk=product_id)
         context = {
             'product': product,
+            'range': range(product.quantity)
         }
     except Product.DoesNotExist:
-        raise Http404("Cette product n'existe pas")
+        raise Http404("This product doesn't exist")
     return render(request, 'shop/detail.html', context)
 
 
@@ -52,7 +54,7 @@ def edit(request, product_id):
     try:
         product = Product.objects.get(pk=product_id)
     except Product.DoesNotExist:
-        raise Http404("Cette product n'existe pas")
+        raise Http404("This product doesn't exist")
 
     form = ProductForm(instance=product)
 
@@ -75,10 +77,26 @@ def delete(request, product_id):
     try:
         product = Product.objects.get(pk=product_id)
     except Product.DoesNotExist:
-        raise Http404("Cette product n'existe pas")
+        raise Http404("This product doesn't exist")
     product.delete()
 
     context = {
         'product': product,
     }
     return render(request, 'shop/delete.html', context)
+
+
+def buy(request, product_id):
+    try:
+        product = Product.objects.get(pk=product_id)
+        product.quantity -= 1
+        product.save()
+        print(product.quantity)
+        redirect("/shop/")
+    except Product.DoesNotExist:
+        raise Http404("This product doesn't exist")
+
+    context = {
+        'product': product,
+    }
+    return render(request, 'shop/buy.html', context)

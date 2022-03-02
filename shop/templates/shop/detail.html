@@ -11,10 +11,13 @@
     <p>Product: {{ product.text}}</p>
     <p>Price: {{ product.price}}</p>
     <p>Quantity: {{ product.quantity}}</p>
-    <img src="" alt="img" />
+    <img src="{{ product.image }}" alt="img" class="w-25"/>
 </div>
 
-<a href="{% url 'shop:index' %}"><button class="btn btn-outline-primary">Return home</button></a>
 
+<div class="d-flex justify-content-around">
+    <a href="{% url 'shop:buy' product.id %}"><button class="btn btn-outline-success">Buy 1 item</button></a>
+    <a href="{% url 'shop:index' %}"><button class="btn btn-outline-primary">Return home</button></a>
+</div>
 
 {% endblock%}
