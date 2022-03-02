@@ -6,3 +6,9 @@ Packages used:
 
 - Bootstrap
 - Django
+
+
+User logins:
+
+username: user
+password: user
